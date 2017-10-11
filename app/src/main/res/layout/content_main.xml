@@ -151,7 +151,36 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/xc_group_divider"
-        android:visibility="gone" />
+        android:visibility="visible" />
+
+    <LinearLayout
+        android:id="@+id/lay_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:text="模拟位置" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/jiantou" />
+    </LinearLayout>
 
 
 </LinearLayout>

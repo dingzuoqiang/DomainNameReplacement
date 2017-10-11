@@ -11,4 +11,5 @@ public class Constant {
     public static String TAB_STUDENT = "student";
     public static String TAB_HUZHU = "huzhu";
     public static String TAB_WMC = "wmc";
+    public static String TAB_LOCATION = "location";
 }

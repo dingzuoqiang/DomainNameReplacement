@@ -25,6 +25,8 @@ public class MyContentProvider extends ContentProvider {
     private static final int HUZHU = 6;
     private static final int WMCS = 7;
     private static final int WMC = 8;
+    private static final int LOCATIONS = 9;
+    private static final int LOCATION = 10;
 
     static {
         //如果match()方法匹配content://com.dingzuoqiang.contentprovider.myprovider/student路径，返回匹配码为1
@@ -37,6 +39,8 @@ public class MyContentProvider extends ContentProvider {
         MATCHER.addURI("com.dingzuoqiang.contentprovider.myprovider", Constant.TAB_HUZHU + "/#", HUZHU);//#号为通配符
         MATCHER.addURI("com.dingzuoqiang.contentprovider.myprovider", Constant.TAB_WMC, WMCS);
         MATCHER.addURI("com.dingzuoqiang.contentprovider.myprovider", Constant.TAB_WMC + "/#", WMC);//#号为通配符
+        MATCHER.addURI("com.dingzuoqiang.contentprovider.myprovider", Constant.TAB_LOCATION, LOCATIONS);
+        MATCHER.addURI("com.dingzuoqiang.contentprovider.myprovider", Constant.TAB_LOCATION + "/#", LOCATION);//#号为通配符
     }
 
     @Override
@@ -95,6 +99,18 @@ public class MyContentProvider extends ContentProvider {
                 }
                 count = db.delete(Constant.TAB_WMC, where, selectionArgs);
                 return count;
+            case LOCATIONS:
+                count = db.delete(Constant.TAB_LOCATION, selection, selectionArgs);
+                return count;
+            case LOCATION:
+                //ContentUris类用于获取Uri路径后面的ID部分
+                id = ContentUris.parseId(uri);
+                where = "id = " + id;
+                if (selection != null && !"".equals(selection)) {
+                    where = selection + " and " + where;
+                }
+                count = db.delete(Constant.TAB_LOCATION, where, selectionArgs);
+                return count;
             default:
                 throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
         }
@@ -128,6 +144,11 @@ public class MyContentProvider extends ContentProvider {
 
             case WMC:
                 return "vnd.android.cursor.item/" + Constant.TAB_WMC;
+            case LOCATIONS:
+                return "vnd.android.cursor.dir/" + Constant.TAB_LOCATION;
+
+            case LOCATION:
+                return "vnd.android.cursor.item/" + Constant.TAB_LOCATION;
 
             default:
                 throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
@@ -157,6 +178,11 @@ public class MyContentProvider extends ContentProvider {
                 return insertUri;
             case WMCS:
                 rowid = db.insert(Constant.TAB_WMC, "url", values);
+                insertUri = ContentUris.withAppendedId(uri, rowid);//得到代表新增记录的Uri
+                this.getContext().getContentResolver().notifyChange(uri, null);
+                return insertUri;
+            case LOCATIONS:
+                rowid = db.insert(Constant.TAB_LOCATION, "url", values);
                 insertUri = ContentUris.withAppendedId(uri, rowid);//得到代表新增记录的Uri
                 this.getContext().getContentResolver().notifyChange(uri, null);
                 return insertUri;
@@ -215,6 +241,15 @@ public class MyContentProvider extends ContentProvider {
                     where = selection + " and " + where;
                 }
                 return db.query(Constant.TAB_WMC, projection, where, selectionArgs, null, null, sortOrder);
+            case LOCATIONS:
+                return db.query(Constant.TAB_LOCATION, projection, selection, selectionArgs, null, null, sortOrder);
+            case LOCATION:
+                id = ContentUris.parseId(uri);
+                where = "id = " + id;
+                if (selection != null && !"".equals(selection)) {
+                    where = selection + " and " + where;
+                }
+                return db.query(Constant.TAB_LOCATION, projection, where, selectionArgs, null, null, sortOrder);
             default:
                 throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
         }
@@ -270,6 +305,17 @@ public class MyContentProvider extends ContentProvider {
                     where = selection + " and " + where;
                 }
                 count = db.update(Constant.TAB_WMC, values, where, selectionArgs);
+                return count;
+            case LOCATIONS:
+                count = db.update(Constant.TAB_LOCATION, values, selection, selectionArgs);
+                return count;
+            case LOCATION:
+                id = ContentUris.parseId(uri);
+                where = "id = " + id;
+                if (selection != null && !"".equals(selection)) {
+                    where = selection + " and " + where;
+                }
+                count = db.update(Constant.TAB_LOCATION, values, where, selectionArgs);
                 return count;
             default:
                 throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());

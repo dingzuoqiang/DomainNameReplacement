@@ -39,6 +39,18 @@ public class DBOpenHelper extends SQLiteOpenHelper {
             db.execSQL(sq5);
             db.execSQL(sq6);
         }
+        initTableLocation(db);
+    }
+
+    private void initTableLocation(SQLiteDatabase db) {
+        String sq0 = "CREATE TABLE " + Constant.TAB_LOCATION + " (id integer primary key autoincrement, city varchar(500), latitude double,longitude double, selected int)";
+        db.execSQL(sq0);//执行有更改的sql语句
+
+        String sq1 = "INSERT INTO " + Constant.TAB_LOCATION + " VALUES (1,'杭州',30.290597,120.036009, 0)";
+        String sq2 = "INSERT INTO " + Constant.TAB_LOCATION + " VALUES (2,'杭州',30.290597,120.036009, 0)";
+        db.execSQL(sq1);
+//        db.execSQL(sq2);
+
     }
 
     @Override
@@ -46,6 +58,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         for (int i = 0; i < arr.length; i++) {
             db.execSQL("DROP TABLE IF EXISTS " + arr[i]);
         }
+        db.execSQL("DROP TABLE IF EXISTS " + Constant.TAB_LOCATION);
         onCreate(db);
     }
 

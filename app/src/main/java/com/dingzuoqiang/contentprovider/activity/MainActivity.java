@@ -58,6 +58,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        findViewById(R.id.lay_location).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, LocationActivity.class);
+                intent.putExtra("table", Constant.TAB_LOCATION);
+                startActivity(intent);
+            }
+        });
 
     }
 }
