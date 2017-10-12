@@ -3,6 +3,7 @@ package com.dingzuoqiang.contentprovider.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 /**
  * Created by dingzuoqiang on 2017/6/16.
@@ -45,10 +46,17 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     private void initTableLocation(SQLiteDatabase db) {
         String sq0 = "CREATE TABLE " + Constant.TAB_LOCATION + " (id integer primary key autoincrement, city varchar(500), latitude double,longitude double, selected int)";
         db.execSQL(sq0);//执行有更改的sql语句
+        String[] strings = {"杭州", "上海黄浦区", "安徽亳州市蒙城县", "温哥华", "宝云岛", "新西敏", "列治文", "北温", "多伦多", "约克", "奥沙瓦", "密西沙加市", "曼哈顿", "布鲁克林", "旧金山", "索诺马县", "洛杉矶县", "橙县", "西雅图市", "斯诺霍米什县"};
+        double[] lat = {30.281783, 31.2304324029, 33.2658480732, 49.2719881, 49.3909805, 49.200074, 49.1633969, 49.308448, 43.7332555, 44.1919595, 43.9297023, 43.53724, 40.830722, 40.63531, 37.757466, 38.404639, 34.148815, 33.907004, 47.632817, 47.9874};
+        double[] lng = {120.116079, 121.4737919321, 116.5644927969, -123.1589515, -123.3265575, -122.9549538, -123.1311539, -122.948982, -79.5020445, -79.4902784, -78.859426, -79.7061218, -73.946334, -73.969785, -122.429117, -122.825144, -118.441947, -117.918523, -122.345716, -122.1308};
 
-        String sq1 = "INSERT INTO " + Constant.TAB_LOCATION + " VALUES (1,'杭州',30.290597,120.036009, 0)";
-        String sq2 = "INSERT INTO " + Constant.TAB_LOCATION + " VALUES (2,'杭州',30.290597,120.036009, 0)";
-        db.execSQL(sq1);
+        for (int i = 0; i < strings.length; i++) {
+            String sq1 = "INSERT INTO " + Constant.TAB_LOCATION + " VALUES (" + i + ",'" + strings[i] + "'," + lat[i] + "," + lng[i] + ", 0)";
+            Log.e("dingzuo",sq1);
+            db.execSQL(sq1);
+        }
+//        String sq2 = "INSERT INTO " + Constant.TAB_LOCATION + " VALUES (2,'杭州',30.290597,120.036009, 0)";
+//        db.execSQL(sq1);
 //        db.execSQL(sq2);
 
     }

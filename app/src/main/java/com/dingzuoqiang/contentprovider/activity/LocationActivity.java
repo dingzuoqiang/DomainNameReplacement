@@ -242,7 +242,6 @@ public class LocationActivity extends AppCompatActivity {
             ContentResolver contentResolver = this.getContentResolver();
             Uri updateUri = Uri.parse(uriString + "/" + urlBean.id);
             ContentValues values = new ContentValues();
-            values.put("url", urlBean.url);
             values.put("selected", urlBean.selected);
             contentResolver.update(updateUri, values, null, null);
         } catch (Exception e) {
@@ -274,7 +273,7 @@ public class LocationActivity extends AppCompatActivity {
                 int id = cursor.getInt(cursor.getColumnIndex("id"));
                 String url = cursor.getString(cursor.getColumnIndex("city")) + "->lat=" + cursor.getDouble(cursor.getColumnIndex("latitude")) + "->lng=" + cursor.getDouble(cursor.getColumnIndex("longitude"));
                 int selected = cursor.getInt(cursor.getColumnIndex("selected"));
-                Log.i(TAG, "id=" + id + ",url=" + url + ",selected=" + selected);
+                Log.e(TAG, "id=" + id + ",city=" + url + ",selected=" + selected);
                 UrlBean urlBean = new UrlBean(id, url, selected);
                 mList.add(urlBean);
             }
